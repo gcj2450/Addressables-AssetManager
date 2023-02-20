@@ -1,0 +1,5 @@
+﻿// This file is here simply to prevent Git being unhappy about empty folders.
+// During a build, this folder DOES contain a file temporarily that holds the 
+// version and platform strings, for use when the player first starts up.
+// But to prevent a ton of unnecessary lingering files being modified all the time,
+// that file is added and removed during the build process.  Trying to keep it clean.  :-)

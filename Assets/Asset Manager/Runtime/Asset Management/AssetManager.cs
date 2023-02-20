@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,7 +22,7 @@ namespace Skywatch.AssetManagement
 
         public delegate void DelegateAssetUnloaded(object runtimeKey);
         public static event DelegateAssetUnloaded OnAssetUnloaded;
-        
+
         static readonly Dictionary<object, AsyncOperationHandle> _loadingAssets = new Dictionary<object, AsyncOperationHandle>(20);
         static readonly Dictionary<object, AsyncOperationHandle> _loadedAssets = new Dictionary<object, AsyncOperationHandle>(100);
         public static IReadOnlyList<object> LoadedAssets => _loadedAssets.Values.Select(x => x.Result).ToList();
@@ -62,14 +62,18 @@ namespace Skywatch.AssetManagement
             return !IsInstantiated(aRef) ? 0 : _instantiatedObjects[aRef.RuntimeKey].Count;
         }
         #endregion
-        
+
         #region Load/Unload
         /// <summary>
-        /// DO NOT USE FOR <see cref="Component"/>s. Call <see cref="TryGetOrLoadComponentAsync{TComponentType}(UnityEngine.AddressableAssets.AssetReference,out UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle{TComponentType})"/>
+        /// DO NOT USE FOR <see cref="Component"/>s. Call 
+        /// <see cref="TryGetOrLoadComponentAsync{TComponentType}(
+        /// AssetReference,out AsyncOperations.AsyncOperationHandle{TComponentType})"/>
         ///
         /// Tries to get an already loaded <see cref="UnityEngine.Object"/> of type <see cref="TObjectType"/>.
-        /// Returns <value>true</value> if the object was loaded and sets <paramref name="handle"/> to the completed <see cref="AsyncOperationHandle{TObject}"/>
-        /// If the object was not loaded returns <value>false</value>, loads the object and sets <paramref name="handle"/> to the un-completed <see cref="AsyncOperationHandle{TObject}"/>
+        /// Returns <value>true</value> if the object was loaded and sets 
+        /// <paramref name="handle"/> to the completed <see cref="AsyncOperationHandle{TObject}"/>
+        /// If the object was not loaded returns <value>false</value>, 
+        /// loads the object and sets <paramref name="handle"/> to the un-completed <see cref="AsyncOperationHandle{TObject}"/>
         /// </summary>
         /// <param name="aRef">The <see cref="AssetReference"/> to load.</param>
         /// <param name="handle">The loading or completed <see cref="AsyncOperationHandle{TObject}"/></param>
@@ -108,28 +112,31 @@ namespace Skywatch.AssetManagement
                 }
                 return false;
             }
-            
+
 
             handle = Addressables.LoadAssetAsync<TObjectType>(aRef);
-            
+
             _loadingAssets.Add(key, handle);
 
             handle.Completed += op2 =>
             {
                 _loadedAssets.Add(key, op2);
                 _loadingAssets.Remove(key);
-                
+
                 OnAssetLoaded?.Invoke(key, op2);
             };
-            
+
             return false;
         }
         /// <summary>
-        /// DO NOT USE FOR <see cref="Component"/>s. Call <see cref="TryGetOrLoadComponentAsync{TComponentType}(UnityEngine.AddressableAssets.AssetReference,out UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle{TComponentType})"/>
+        /// DO NOT USE FOR <see cref="Component"/>s. Call 
+        /// <see cref="TryGetOrLoadComponentAsync{TComponentType}(AssetReference,out AsyncOperationHandle{TComponentType})"/>
         ///
         /// Tries to get an already loaded <see cref="UnityEngine.Object"/> of type <see cref="TObjectType"/>.
-        /// Returns <value>true</value> if the object was loaded and sets <paramref name="handle"/> to the completed <see cref="AsyncOperationHandle{TObject}"/>
-        /// If the object was not loaded returns <value>false</value>, loads the object and sets <paramref name="handle"/> to the un-completed <see cref="AsyncOperationHandle{TObject}"/>
+        /// Returns <value>true</value> if the object was loaded and sets 
+        /// <paramref name="handle"/> to the completed <see cref="AsyncOperationHandle{TObject}"/>
+        /// If the object was not loaded returns <value>false</value>,
+        /// loads the object and sets <paramref name="handle"/> to the un-completed <see cref="AsyncOperationHandle{TObject}"/>
         /// </summary>
         /// <param name="aRef">The <see cref="AssetReferenceT{TObject}"/> to load.</param>
         /// <param name="handle">The loading or completed <see cref="AsyncOperationHandle{TObject}"/></param>
@@ -139,13 +146,16 @@ namespace Skywatch.AssetManagement
         {
             return TryGetOrLoadObjectAsync(aRef as AssetReference, out handle);
         }
-        
+
         /// <summary>
-        /// DO NOT USE FOR <see cref="UnityEngine.Object"/>s. Call <see cref="TryGetOrLoadObjectAsync{TObjectType}(UnityEngine.AddressableAssets.AssetReference,out UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle{TObjectType})"/>
+        /// DO NOT USE FOR <see cref="UnityEngine.Object"/>s. Call 
+        /// <see cref="TryGetOrLoadObjectAsync{TObjectType}(AssetReference,out AsyncOperationHandle{TObjectType})"/>
         ///
         /// Tries to get an already loaded <see cref="Component"/> of type <see cref="TComponentType"/>.
-        /// Returns <value>true</value> if the object was loaded and sets <paramref name="handle"/> to the completed <see cref="AsyncOperationHandle{TObject}"/>
-        /// If the object was not loaded returns <value>false</value>, loads the object and sets <paramref name="handle"/> to the un-completed <see cref="AsyncOperationHandle{TObject}"/>
+        /// Returns <value>true</value> if the object was loaded and sets 
+        /// <paramref name="handle"/> to the completed <see cref="AsyncOperationHandle{TObject}"/>
+        /// If the object was not loaded returns <value>false</value>, 
+        /// loads the object and sets <paramref name="handle"/> to the un-completed <see cref="AsyncOperationHandle{TObject}"/>
         /// </summary>
         /// <param name="aRef">The <see cref="AssetReference"/> to load.</param>
         /// <param name="handle">The loading or completed <see cref="AsyncOperationHandle{TObject}"/></param>
@@ -169,10 +179,10 @@ namespace Skywatch.AssetManagement
                 handle = Addressables.ResourceManager.CreateChainOperation(_loadingAssets[key], ConvertHandleToComponent<TComponentType>);
                 return false;
             }
-            
+
 
             var op = Addressables.LoadAssetAsync<GameObject>(aRef);
-            
+
             _loadingAssets.Add(key, op);
 
             op.Completed += op2 =>
@@ -192,11 +202,13 @@ namespace Skywatch.AssetManagement
             return false;
         }
         /// <summary>
-        /// DO NOT USE FOR <see cref="UnityEngine.Object"/>s. Call <see cref="TryGetOrLoadObjectAsync{TObjectType}(UnityEngine.AddressableAssets.AssetReference,out UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle{TObjectType})"/>
+        /// DO NOT USE FOR <see cref="UnityEngine.Object"/>s. Call 
+        /// <see cref="TryGetOrLoadObjectAsync{TObjectType}(AssetReference,out AsyncOperationHandle{TObjectType})"/>
         ///
         /// Tries to get an already loaded <see cref="Component"/> of type <see cref="TComponentType"/>.
         /// Returns <value>true</value> if the object was loaded and sets <paramref name="handle"/> to the completed <see cref="AsyncOperationHandle{TObject}"/>
-        /// If the object was not loaded returns <value>false</value>, loads the object and sets <paramref name="handle"/> to the un-completed <see cref="AsyncOperationHandle{TObject}"/>
+        /// If the object was not loaded returns <value>false</value>, 
+        /// loads the object and sets <paramref name="handle"/> to the un-completed <see cref="AsyncOperationHandle{TObject}"/>
         /// </summary>
         /// <param name="aRef">The <see cref="AssetReferenceT{TObject}"/> to load.</param>
         /// <param name="handle">The loading or completed <see cref="AsyncOperationHandle{TObject}"/></param>
@@ -206,12 +218,12 @@ namespace Skywatch.AssetManagement
         {
             return TryGetOrLoadComponentAsync(aRef as AssetReference, out handle);
         }
-        
+
         public static bool TryGetObjectSync<TObjectType>(AssetReference aRef, out TObjectType result) where TObjectType : Object
         {
             CheckRuntimeKey(aRef);
             var key = aRef.RuntimeKey;
-            
+
             if (_loadedAssets.ContainsKey(key))
             {
                 result = _loadedAssets[key].Convert<TObjectType>().Result;
@@ -239,7 +251,7 @@ namespace Skywatch.AssetManagement
                 if (!go)
                     throw new ConversionException($"Cannot convert {nameof(handle.Result)} to {nameof(GameObject)}.");
                 result = go.GetComponent<TComponentType>();
-                if(!result)
+                if (!result)
                     throw new ConversionException($"Cannot {nameof(go.GetComponent)} of Type {typeof(TComponentType)}.");
                 return true;
             }
@@ -251,7 +263,7 @@ namespace Skywatch.AssetManagement
         {
             return TryGetComponentSync(aRef as AssetReference, out result);
         }
-        
+
         public static AsyncOperationHandle<List<AsyncOperationHandle<Object>>> LoadAssetsByLabelAsync(string label)
         {
             var handle = Addressables.ResourceManager.StartOperation(new LoadAssetsByLabelOperation(_loadedAssets, _loadingAssets, label, AssetLoadedCallback), default);
@@ -278,7 +290,7 @@ namespace Skywatch.AssetManagement
         static void Unload(object key)
         {
             CheckRuntimeKey(key);
-            
+
             AsyncOperationHandle handle;
             if (_loadingAssets.ContainsKey(key))
             {
@@ -300,7 +312,7 @@ namespace Skywatch.AssetManagement
                 DestroyAllInstances(key);
 
             Addressables.Release(handle);
-            
+
             OnAssetUnloaded?.Invoke(key);
         }
 
@@ -311,7 +323,7 @@ namespace Skywatch.AssetManagement
                 Debug.LogError("Label cannot be empty.");
                 return;
             }
-            
+
             var locationsHandle = Addressables.LoadResourceLocationsAsync(label);
             locationsHandle.Completed += op =>
             {
@@ -329,7 +341,7 @@ namespace Skywatch.AssetManagement
             };
 
         }
-        
+
         #endregion
 
         #region Instantiation
@@ -375,7 +387,7 @@ namespace Skywatch.AssetManagement
                 handle = Addressables.ResourceManager.CreateCompletedOperation<TComponentType>(null, $"Load Operation was invalid: {loadHandle}.");
                 return false;
             }
-            
+
             //Create a chain that waits for loadHandle to finish, then instantiates and returns the instance GO.
             handle = Addressables.ResourceManager.CreateChainOperation(loadHandle, chainOp =>
             {
@@ -441,7 +453,7 @@ namespace Skywatch.AssetManagement
                 handle = Addressables.ResourceManager.CreateCompletedOperation(list, string.Empty);
                 return true;
             }
-            
+
             if (!loadHandle.IsValid())
             {
                 Debug.LogError($"Load Operation was invalid: {loadHandle}.");
@@ -545,16 +557,16 @@ namespace Skywatch.AssetManagement
             where TComponentType : Component
         {
             var key = aRef.RuntimeKey;
-            
+
             var instance = Object.Instantiate(loadedAsset, position, rotation, parent);
-            if(!instance)
+            if (!instance)
                 throw new NullReferenceException($"Instantiated Object of type '{typeof(TComponentType)}' is null.");
-            
+
             var monoTracker = instance.gameObject.AddComponent<MonoTracker>();
             monoTracker.key = key;
             monoTracker.OnDestroyed += TrackerDestroyed;
 
-            if(!_instantiatedObjects.ContainsKey(key))
+            if (!_instantiatedObjects.ContainsKey(key))
                 _instantiatedObjects.Add(key, new List<GameObject>(20));
             _instantiatedObjects[key].Add(instance.gameObject);
             return instance;
@@ -562,21 +574,21 @@ namespace Skywatch.AssetManagement
         static GameObject InstantiateInternal(AssetReference aRef, GameObject loadedAsset, Vector3 position, Quaternion rotation, Transform parent)
         {
             var key = aRef.RuntimeKey;
-            
+
             var instance = Object.Instantiate(loadedAsset, position, rotation, parent);
-            if(!instance)
+            if (!instance)
                 throw new NullReferenceException($"Instantiated Object of type '{typeof(GameObject)}' is null.");
-            
+
             var monoTracker = instance.gameObject.AddComponent<MonoTracker>();
             monoTracker.key = key;
             monoTracker.OnDestroyed += TrackerDestroyed;
-            
-            if(!_instantiatedObjects.ContainsKey(key))
+
+            if (!_instantiatedObjects.ContainsKey(key))
                 _instantiatedObjects.Add(key, new List<GameObject>(20));
             _instantiatedObjects[key].Add(instance);
             return instance;
         }
-        
+
         static void TrackerDestroyed(MonoTracker tracker)
         {
             if (_instantiatedObjects.TryGetValue(tracker.key, out var list))
@@ -618,12 +630,12 @@ namespace Skywatch.AssetManagement
             else
             {
                 var go = obj as GameObject;
-                if(go)
+                if (go)
                     Object.Destroy(go);
             }
         }
         #endregion
-        
+
         #region Utilities
         static void CheckRuntimeKey(AssetReference aRef)
         {
@@ -637,7 +649,7 @@ namespace Skywatch.AssetManagement
         {
             return Guid.TryParse(key.ToString(), out var result);
         }
-        
+
         static AsyncOperationHandle<TComponentType> ConvertHandleToComponent<TComponentType>(AsyncOperationHandle handle) where TComponentType : Component
         {
             GameObject go = handle.Result as GameObject;
@@ -650,11 +662,11 @@ namespace Skywatch.AssetManagement
 
             return result;
         }
-        
+
         static List<object> GetKeysFromLocations(IList<IResourceLocation> locations)
         {
             List<object> keys = new List<object>(locations.Count);
-            
+
             foreach (var locator in Addressables.ResourceLocators)
             {
                 foreach (var key in locator.Keys)
@@ -662,7 +674,7 @@ namespace Skywatch.AssetManagement
                     bool isGUID = Guid.TryParse(key.ToString(), out var guid);
                     if (!isGUID)
                         continue;
-                    
+
                     if (!TryGetKeyLocationID(locator, key, out var keyLocationID))
                         continue;
 

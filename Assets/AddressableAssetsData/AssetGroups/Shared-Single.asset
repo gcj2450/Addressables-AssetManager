@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Shared-Single
+  m_EditorClassIdentifier: 
+  m_GroupName: Shared-Single
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c63457106f1baef469d2819f17e4599d
+  m_SerializeEntries:
+  - m_GUID: 5e0b7dc1782a986469ed1446388360f5
+    m_Address: SurfaceShader_VC
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f88239865da4c79468e051ceb78c0317
+    m_Address: ShockWaveParticle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7ff1ab0b724442843965e2dd0f02e969
+    m_Address: PlasmaExplosionParticle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b5387d3c2ba98fc44a0f5744f94ce48c
+    m_Address: PlasmaFireParticle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 123ac6dc79004e54b8b352a7e64acdca
+    m_Address: LightningParticle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: aa0907451008d784b8ef5b1c0900465d
+    m_Address: FlameRoundGreyParticleSheet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 06e4a78c75e10c145a9156e32089ec9c
+    m_Address: LightningParticle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d3c9883e2f0eef44f9241b6f8428f9fc
+    m_Address: SmokePuffParticleSheet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3eb079016c4106b41bc3f19de570f770
+    m_Address: StoneSurface
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bd8c234372a08af408b82538314378fe
+    m_Address: FlameParticle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 698a8134f4ebbbd4e848648685f68067
+    m_Address: SmokeDarkParticle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 776677ab3818fb249adaca05f4e04545
+    m_Address: EmbersParticle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d7f098ed9997e714193be5e86df013f4
+    m_Address: FlameRoundYellowParticle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d6971144598309840aa5627e0797e545
+    m_Address: StoneAlbedo
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e6b70229308faa64880eac4945d59f5e
+    m_Address: StoneNormals
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 26e206bd730800f4f82b828eb9f1c067
+    m_Address: SmokePuff02ParticleSheet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 408718fd5f763de42b12f849570ddf58
+    m_Address: FlameRoundParticleSheet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 838696ee09635f647b630a61fac71a72
+    m_Address: FlameParticleSheet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5fb4c0cae8f0ba2408cc02db03c53ac0
+    m_Address: Cube1Mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f570acd0bb849794399b4263141fea65
+    m_Address: one
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0227cb5c46a608e449de2016d9832bbe
+    m_Address: Cube2Mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 27891288e22283d4ea68331609120108
+    m_Address: pointOne
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 21f5da75cbd92724bad0b3dddb8445cc
+    m_Address: Cube3Mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 41a2abfe9d3a200449b46438744d4ee1
+    m_Address: zero
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f69eeb0e1b614bb47bccbc6b42a264aa
+    m_Address: Cube1Mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: aa4391411cbabe64fbf408ad61322b63, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: b394e28aac5b5714591738187a1d7706, type: 2}
+    - {fileID: 11400000, guid: f857ac555bffef64fbdf2eccac051fe8, type: 2}

@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d4b10611b54474c9d5d0777bfb3989, type: 3}
+  m_Name: Records
+  m_EditorClassIdentifier: 
+  data:
+  - file: data_v1_22fbacb154793c9105ff4521d78d271b.json
+    size: 12240
+    timestamp: 133125442346000098
+    date: "2022\u5E7411\u670810\u65E5-16\u65F657\u520614\u79D2"
+    platform: Windows
+    elapsed: 0.055
+    changes:
+    - data_arts_json_e6e6fe216bf8121f0069b50113f3b6f9
+    - data_versions_json_3195b3f3c49190b3870eab91070c46d6
+    - data_v1_2582283aa1a2936b9b0b00fd6880d344.bin
+    - data_v1_22fbacb154793c9105ff4521d78d271b.json
+    build: Data
+  - file: arts_v1_b03485e6b83a31addc8437583ef18dc0.json
+    size: 3061406
+    timestamp: 133125442344681216
+    date: "2022\u5E7411\u670810\u65E5-16\u65F657\u520614\u79D2"
+    platform: Windows
+    elapsed: 13.063
+    changes:
+    - shaders_45736c888d033d8b2a2647ee0758ce0d
+    - arts_prefabs_buttonmenu_prefab_fb91d57222fa867f0c1b6327725dfcee
+    - arts_prefabs_children_prefab_269e8c86c760e8e6fbe899d09bf21c32
+    - arts_prefabs_children2_prefab_c332822183f19c6fbaf0fa8fe53ce694
+    - arts_prefabs_customloader_prefab_dff280fc7697a22ae487cd694acf1051
+    - arts_prefabs_plane_prefab_728714d865f38411bd56f6405b76eae6
+    - arts_prefabs_preload_copyright_prefab_d5e16a00dc3c9fed9035cb3c9b0e9db6
+    - arts_prefabs_preload_loadingscreen_prefab_5b0e57c16684cf063bbbe19d58beb335
+    - arts_prefabs_preload_messagebox_prefab_0c13971e58a9f5676a16234cf18f2e8f
+    - arts_scenes_about_unity_348d46a3e605be48bbf09271401da9cd
+    - arts_scenes_additive_unity_f1a5409c2baf3b73cb683f8117e263eb
+    - arts_scenes_additive2_unity_01ab593a1b0f857f885e342651ce672e
+    - arts_scenes_async2sync_unity_2f06f8be144bf0d57d2dd65c6caaced4
+    - arts_scenes_checkupdate_unity_093bca3611c68fb5e47d93ebd600140b
+    - arts_scenes_cyclereferences_unity_890d0696f932d101c7ec573d3ed123eb
+    - arts_scenes_download_unity_6523673a3fc52a64ff7b88867554383a
+    - arts_scenes_getdownloadsize_unity_3536cd9166abfc69b68e90176525a154
+    - arts_scenes_loadrawasset_unity_781f00d9706b462460dfc977c8968d4c
+    - arts_scenes_menu_unity_b05799e6aff9484383ed7ae2c849b0c2
+    - arts_scenes_openingdialog_unity_c6e5ea7d7f6a8ccfa2a41fc423843dd6
+    - arts_scenes_splash_unity_5647582fbfbee388b53db36a80a5d5d4
+    - arts_textures_bgs_0c63a5938a0fa9e191e709f08ca24a93
+    - arts_textures_borders_basic_34eac65439118d8e4a9a4da25b80d8d2
+    - arts_textures_borders_efb4f8e74a8baea0564968baa12abea5
+    - arts_textures_86cd935dddd844e8cd7e5e930a29e0b0
+    - auto_74dcacbbe8efb0043f016a42cc66d294_1896a97013f54e2f420deaab257d5da8
+    - auto_arts_scenes_checkupdate_unity_484d24f8e9eff3ae4058a10bfc2352e6
+    - arts_v1_b03485e6b83a31addc8437583ef18dc0.json
+    build: Arts
+  - file: data_v1_22fbacb154793c9105ff4521d78d271b.json
+    size: 12240
+    timestamp: 133112236589783531
+    date: "2022\u5E7410\u670826\u65E5-10\u65F607\u520638\u79D2"
+    platform: Windows
+    elapsed: 0.084
+    changes:
+    - data_arts_json_e6e6fe216bf8121f0069b50113f3b6f9
+    - data_versions_json_3195b3f3c49190b3870eab91070c46d6
+    - data_v1_2582283aa1a2936b9b0b00fd6880d344.bin
+    - data_v1_22fbacb154793c9105ff4521d78d271b.json
+    build: Data
+  - file: arts_v1_ffa69d50b8014b3d687cde8c2567f782.json
+    size: 3055933
+    timestamp: 133112236588124040
+    date: "2022\u5E7410\u670826\u65E5-10\u65F607\u520638\u79D2"
+    platform: Windows
+    elapsed: 14.984
+    changes:
+    - shaders_45736c888d033d8b2a2647ee0758ce0d
+    - arts_prefabs_buttonmenu_prefab_fb91d57222fa867f0c1b6327725dfcee
+    - arts_prefabs_children_prefab_269e8c86c760e8e6fbe899d09bf21c32
+    - arts_prefabs_children2_prefab_c332822183f19c6fbaf0fa8fe53ce694
+    - arts_prefabs_customloader_prefab_dff280fc7697a22ae487cd694acf1051
+    - arts_prefabs_plane_prefab_728714d865f38411bd56f6405b76eae6
+    - arts_prefabs_preload_copyright_prefab_d5e16a00dc3c9fed9035cb3c9b0e9db6
+    - arts_prefabs_preload_loadingscreen_prefab_5b0e57c16684cf063bbbe19d58beb335
+    - arts_prefabs_preload_messagebox_prefab_0c13971e58a9f5676a16234cf18f2e8f
+    - arts_scenes_about_unity_348d46a3e605be48bbf09271401da9cd
+    - arts_scenes_additive_unity_eb6948dff7b5f593f1a84e9ec2c1dc2d
+    - arts_scenes_additive2_unity_872ba33517144295a8f7798e2b9b4ccf
+    - arts_scenes_async2sync_unity_2f967229c1ed663b6664bfd8dab096b4
+    - arts_scenes_checkupdate_unity_093bca3611c68fb5e47d93ebd600140b
+    - arts_scenes_cyclereferences_unity_6eb430f5b574a18a4063c4f63e0ecea0
+    - arts_scenes_download_unity_7fcfa52415eec4cf382f5f1317965709
+    - arts_scenes_getdownloadsize_unity_03c8a6aa5551c93474a501133fde51b8
+    - arts_scenes_loadrawasset_unity_92302761593ddcf980b95f8ad62a04eb
+    - arts_scenes_menu_unity_abf643625a3432abc2ce5520e59d1aa0
+    - arts_scenes_openingdialog_unity_c6e5ea7d7f6a8ccfa2a41fc423843dd6
+    - arts_scenes_splash_unity_0d801c346c193bf67417e2d0d111ec1e
+    - arts_textures_bgs_0c63a5938a0fa9e191e709f08ca24a93
+    - arts_textures_borders_basic_34eac65439118d8e4a9a4da25b80d8d2
+    - arts_textures_borders_efb4f8e74a8baea0564968baa12abea5
+    - arts_textures_86cd935dddd844e8cd7e5e930a29e0b0
+    - auto_74dcacbbe8efb0043f016a42cc66d294_1896a97013f54e2f420deaab257d5da8
+    - auto_arts_scenes_checkupdate_unity_484d24f8e9eff3ae4058a10bfc2352e6
+    - arts_v1_ffa69d50b8014b3d687cde8c2567f782.json
+    build: Arts
