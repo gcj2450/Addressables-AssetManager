@@ -74,11 +74,12 @@ namespace Asgard
             if (this.loaderState == LoaderState.Over) return;
 
 #if UNITY_EDITOR && !USEAB
-            string assetPath = this.resource.abResMapItem.AssetBundleName;
+            //string assetPath = this.resource.abResMapItem.AssetBundleName;
+            string assetPath = "this.resource.abResMapItem.AssetBundleName";
             if (!File.Exists(assetPath))
             {
                 this.resource.resourceState = BaseResource.ResourceState.Error;
-                Debug.Log("不存在这个资源文件" + this.resource.abResMapItem.AssetBundleName + " Error状态");
+                Debug.Log("不存在这个资源文件" + assetPath + " Error状态");
                 this.loaderState = LoaderState.Over; 
             }
             else

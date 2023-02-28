@@ -82,16 +82,16 @@ namespace Asgard.Resource
             None,
         }
 
-        public ResourceType resourceType
-        {
-            get
-            {
-                return (ResourceType)(this.abResMapItem.ResourceType);
-            }
-        }
+        //public ResourceType resourceType
+        //{
+        //    get
+        //    {
+        //        return (ResourceType)(this.abResMapItem.ResourceType);
+        //    }
+        //}
 
 
-        public ABResMapItemScriptObj abResMapItem = null;
+        //public ABResMapItemScriptObj abResMapItem = null;
         protected AssetBundle assetBundle;
         public byte[] bytes;
         private int referenceCount;
@@ -110,17 +110,17 @@ namespace Asgard.Resource
 
         public List<BaseResource> dependResourceList = new List<BaseResource>();
 
-        public BaseResource(ABResMapItemScriptObj abResMapItem, ResourceState resourceState, Storage storage)
-        {
-            this.abResMapItem = abResMapItem;
-            this.resourceState = resourceState;
-            this.storage = storage;
-            this.referenceCount = 0;
-            string loadName = this.abResMapItem.AssetBundleName.Substring(this.abResMapItem.AssetBundleName.LastIndexOf("/") + 1);
-            if (loadName.Contains("."))
-                loadName = loadName.Substring(0, loadName.LastIndexOf("."));
-            this.loadName = loadName;
-        }
+        //public BaseResource(ABResMapItemScriptObj abResMapItem, ResourceState resourceState, Storage storage)
+        //{
+        //    this.abResMapItem = abResMapItem;
+        //    this.resourceState = resourceState;
+        //    this.storage = storage;
+        //    this.referenceCount = 0;
+        //    string loadName = this.abResMapItem.AssetBundleName.Substring(this.abResMapItem.AssetBundleName.LastIndexOf("/") + 1);
+        //    if (loadName.Contains("."))
+        //        loadName = loadName.Substring(0, loadName.LastIndexOf("."));
+        //    this.loadName = loadName;
+        //}
 
         public void SetAssetBundle(AssetBundle assetBundle)
         {
@@ -368,37 +368,37 @@ namespace Asgard.Resource
             }
         }
 
-        public GameObject InstanceObj
-        {
-            get
-            {
-#if UNITY_EDITOR && !USEAB
-                GameObject go = UnityEditor.AssetDatabase.LoadAssetAtPath(this.abResMapItem.AssetBundleName, typeof(UnityEngine.Object)) as GameObject;
-#else
-                GameObject go = this.assetBundle.LoadAsset(loadName) as GameObject;
-#endif
-                return GameObject.Instantiate(go);
-            }
+//        public GameObject InstanceObj
+//        {
+//            get
+//            {
+//#if UNITY_EDITOR && !USEAB
+//                GameObject go = UnityEditor.AssetDatabase.LoadAssetAtPath(this.abResMapItem.AssetBundleName, typeof(UnityEngine.Object)) as GameObject;
+//#else
+//                GameObject go = this.assetBundle.LoadAsset(loadName) as GameObject;
+//#endif
+//                return GameObject.Instantiate(go);
+//            }
 
-        }
+//        }
 
-        public UnityEngine.Object AssetObj
-        {
-            get
-            {
-                UnityEngine.Object go = null;
-#if UNITY_EDITOR && !USEAB
-                 go = UnityEditor.AssetDatabase.LoadAssetAtPath(this.abResMapItem.AssetBundleName, typeof(UnityEngine.Object));
-#else
-                if (this.assetBundle != null)
-                    go = this.assetBundle.LoadAsset(loadName);
-                else
-                    Debug.LogError("资源[" + loadName + "][" + GetType() + "]没有assetbundle对象");
-#endif
-                return go;
-            }
+//        public UnityEngine.Object AssetObj
+//        {
+//            get
+//            {
+//                UnityEngine.Object go = null;
+//#if UNITY_EDITOR && !USEAB
+//                 go = UnityEditor.AssetDatabase.LoadAssetAtPath(this.abResMapItem.AssetBundleName, typeof(UnityEngine.Object));
+//#else
+//                if (this.assetBundle != null)
+//                    go = this.assetBundle.LoadAsset(loadName);
+//                else
+//                    Debug.LogError("资源[" + loadName + "][" + GetType() + "]没有assetbundle对象");
+//#endif
+//                return go;
+//            }
 
-        }
+//        }
 
     }
 }

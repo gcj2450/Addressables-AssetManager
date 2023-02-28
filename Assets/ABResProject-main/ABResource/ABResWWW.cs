@@ -238,7 +238,68 @@ namespace Asgard
             return this.error;
         }
 
+        private bool StartSimpleHttpDownLoad(string url, string destPath)
+        {
+            try
+            {
+                url += string.Format("?t={0}", System.DateTime.Now.Ticks);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                //request.ReadWriteTimeout = 10000;
+                //request.Timeout = 6000;
+                WebResponse response = request.GetResponse();
+                Stream inStream = response.GetResponseStream();
+                if (File.Exists(destPath)) { File.Delete(destPath); }
+                FileStream outStream = new FileStream(destPath, FileMode.Create);
 
+                byte[] buff = new byte[BUFF_SIZE];
+                int len = 0;
+                long totals = Math.Max(1, response.ContentLength);
+                long pos = 0;
+                while ((len = inStream.Read(buff, 0, BUFF_SIZE)) != 0)
+                {
+                    outStream.Write(buff, 0, len);
+                    pos += len;
+                }
+                inStream.Close();
+                outStream.Close();
+                response.Close();
+                if (pos != totals) { Debug.LogError("下载文件失败"); return false; }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.ToString());
+                return false;
+            }
+
+            Debug.Log("下载tank2.unity3d文件成功");
+            return true;
+        }
+
+        public static string GetMd5Hash(string pathName)
+        {
+            string StrResult = string.Empty;
+            string StrHashData = string.Empty;
+            byte[] ArrbytHashValue = null;
+
+            System.IO.FileStream OFileStream = null;
+            System.Security.Cryptography.MD5CryptoServiceProvider MD5Hasher = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            try
+            {
+                OFileStream = new System.IO.FileStream(pathName.Replace("\"", ""), System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite);
+                ArrbytHashValue = MD5Hasher.ComputeHash(OFileStream);
+                OFileStream.Close();
+
+                //由以连字符分隔的十六进制对构成的String，其中每一对表示value 中对应的元素；例如“F-2C-4A”
+                StrHashData = System.BitConverter.ToString(ArrbytHashValue);
+                StrHashData = StrHashData.Replace("-", "");
+                StrResult = StrHashData;
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError(ex.Message);
+            }
+            return StrResult;
+        }
     }
 
 
