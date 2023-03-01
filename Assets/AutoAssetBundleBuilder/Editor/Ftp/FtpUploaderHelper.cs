@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 //using Unity.Mathematics;
 using UnityEngine;
 
@@ -79,6 +80,43 @@ namespace BaiduFtpUploadFiles
             }
         }
 
+        public Task<bool> UploadFolderTask(string _localFolderName, string _ftpFolderName)
+        {
+            Task<bool> task = new Task<bool>(() => UploadFolder(_localFolderName, _ftpFolderName));
+            task.Start();
+            return task;
+        }
+
+        public Task<bool> UploadFileTask(string _path, string _name = "", string _ftpPath = "/")
+        {
+            Task<bool> task = new Task<bool>(() => UploadFilePath(_path, _name, _ftpPath));
+            task.Start();
+            return task;
+        }
+
+        bool UploadFolder(string _localFolderName, string _ftpFolderName)
+        {
+            List<string> files = new List<string>();
+            RecursiveFile(_localFolderName, ref files);
+            Debug.Log(files.Count);
+            bool result = false;
+            for (int i = 0, cnt = files.Count; i < cnt; i++)
+            {
+                string dirName = new FileInfo(files[i]).DirectoryName;
+                //Debug.Log(dirName);
+                dirName = dirName.Replace("\\", "/") + "/";
+                //Debug.Log(_localFolderName);
+                string remoteFolderName = dirName.Replace(_localFolderName, "/");
+                //Debug.Log(remoteFolderName);
+
+                if (!_ftpFolderName.EndsWith("/"))
+                    _ftpFolderName = _ftpFolderName + "/";
+                Debug.Log(_ftpFolderName + remoteFolderName);
+                result = UploadFilePath(files[i], "", _ftpFolderName + remoteFolderName);
+            }
+            return result;
+        }
+
         //上传示例，将D:/GitHub/Addressables-AssetManager/ServerData/
         //文件夹内的文件和文件夹传到服务器的ServerData文件夹下
         //UploadFolderAsync("D:/GitHub/Addressables-AssetManager/ServerData/", "ServerData/");
@@ -93,6 +131,8 @@ namespace BaiduFtpUploadFiles
             List<string> files = new List<string>();
             RecursiveFile(_localFolderName, ref files);
             Debug.Log(files.Count);
+            ThreadPool.SetMaxThreads(50, 1000);
+            ThreadPool.SetMinThreads(50, 50);
             for (int i = 0, cnt = files.Count; i < cnt; i++)
             {
                 string dirName = new FileInfo(files[i]).DirectoryName;
@@ -134,10 +174,16 @@ namespace BaiduFtpUploadFiles
 
         public void UploadFileAsync(string _path, string _name = "", string _ftpPath = "/")
         {
-            IList<object> objList = new List<object> { _path, _name, _ftpPath };
-            Thread threadUpload =
-                new Thread(new ParameterizedThreadStart(ThreadUploadFile));
-            threadUpload.Start(objList);  //开始采用线程方式下载
+            //IList<object> objList = new List<object> { _path, _name, _ftpPath };
+            
+            ThreadPool.QueueUserWorkItem(state =>
+            {
+                UploadFilePath(_path, _name, _ftpPath);
+            });
+
+            //Thread threadUpload =
+            //    new Thread(new ParameterizedThreadStart(ThreadUploadFile));
+            //threadUpload.Start(objList);  //开始采用线程方式下载
         }
 
         /// <summary>
@@ -204,18 +250,19 @@ namespace BaiduFtpUploadFiles
                     strm.Write(buff, 0, contentLen);
                     contentLen = fs.Read(buff, 0, buffLength);
                     startbye += contentLen;
-                    Debug.Log("上传进度：" + Math.Round((startbye / (float)allbye), 2));
+                    //Debug.Log("上传进度：" + Math.Round((startbye / (float)allbye), 2));
                     Debug.Log("已上传:" + (int)(startbye / 1024.0f) + "KB/" +
                         "总长度:" + (int)(allbye / 1024.0f) + "KB" + " " + " 文件名:" + f.Name);
                 }
                 strm.Close();
                 fs.Close();
-                Debug.Log("上传成功!");
+                Debug.Log("上传成功: "+f.Name);
                 return true;
             }
             catch (Exception ex)
             {
-                throw new Exception("上传  Error --> " + ex.Message);
+                Debug.LogError("上传  Error --> " + ex.Message);
+                return false;
             }
         }
 

@@ -80,9 +80,6 @@ public class FTPUploaderWindow : EditorWindow
         if (GUILayout.Button(uploadLabel))
         {
             FtpUploaderHelper ftpUpHelper = new FtpUploaderHelper("10.27.209.219", "8021", "/", "tmbh", "anquan@123", false);
-
-            //ftpUpHelper.UploadFileAsync("LocalFileName", "", "FtpFolderName/");
-
             ftpUpHelper.UploadFolderAsync(uploadFolder, remoteFolder);
 
         }

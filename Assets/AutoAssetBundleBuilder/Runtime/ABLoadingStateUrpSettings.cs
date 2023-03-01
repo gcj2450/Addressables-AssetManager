@@ -1,5 +1,4 @@
-﻿using ReachableGames.AutoBuilder;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -16,6 +15,8 @@ namespace ZionGame
         private string urpSettingsName;
         private AsyncOperation _request = null;
         private float _lastProgress = 0.0f;
+
+        public event EventHandler OnError;
 
         public ABLoadingStateUrpSettings(string _urpSettingsName)
         {
@@ -94,6 +95,11 @@ namespace ZionGame
             {
                 Debug.Log("Completed called but progress is " + asyncOp.progress + " and done==" + asyncOp.isDone);
             }
+        }
+
+        public void Retry()
+        {
+            Begin(_configData);
         }
     }
 }

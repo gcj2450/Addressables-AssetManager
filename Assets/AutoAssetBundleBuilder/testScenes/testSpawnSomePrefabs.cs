@@ -1,10 +1,5 @@
-﻿//-------------------
-// ReachableGames
-// Copyright 2019
-//-------------------
-
-using UnityEngine;
-using ReachableGames.AutoBuilder;
+﻿using UnityEngine;
+using ZionGame;
 
 namespace ReachableGames
 {

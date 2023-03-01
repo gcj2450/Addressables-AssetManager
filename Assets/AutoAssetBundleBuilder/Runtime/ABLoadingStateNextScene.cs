@@ -1,88 +1,94 @@
-﻿//-------------------
-// ReachableGames
-// Copyright 2019
-//-------------------
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace ReachableGames
+namespace ZionGame
 {
-	namespace AutoBuilder
-	{
-		public class ABLoadingStateNextScene : ABILoadingState
-		{
-			private Dictionary<string, ABIData> _configData = null;
-			private string                      _nextSceneName;
-			private AsyncOperation              _request = null;
-			private float                       _lastProgress = 0.0f;
+    public class ABLoadingStateNextScene : ABILoadingState
+    {
+        private Dictionary<string, ABIData> _configData = null;
+        private string _nextSceneName;
+        private AsyncOperation _request = null;
+        private float _lastProgress = 0.0f;
 
-			public ABLoadingStateNextScene(string nextSceneName)
-			{
-				_nextSceneName = nextSceneName;
-			}
-	
-			public void Begin(Dictionary<string, ABIData> configData)
-			{
-				_configData = configData;
+        public event EventHandler OnError;
 
-				// load the next scene
-				_request = SceneManager.LoadSceneAsync(_nextSceneName, LoadSceneMode.Additive);
-				if (_request==null) Debug.LogError("<color=#ff8080>Scene load request is null.</color>");
-				_request.completed += StartNextScene;
-			}
+        public ABLoadingStateNextScene(string nextSceneName,EventHandler eventHandler)
+        {
+            _nextSceneName = nextSceneName;
+            OnError = eventHandler;
+        }
 
-			public void End()
-			{
-				_configData = null;
-			}
+        public void Begin(Dictionary<string, ABIData> configData)
+        {
+            _configData = configData;
 
-			public string GetStateText()
-			{
-				if (_request!=null && _request.isDone && _request.progress < 1.0f)
-					return "Scene load failed "+_nextSceneName;
-				return "Starting Up!";
-			}
+            // load the next scene
+            _request = SceneManager.LoadSceneAsync(_nextSceneName, LoadSceneMode.Additive);
+            if (_request == null) Debug.LogError("<color=#ff8080>Scene load request is null.</color>");
+            _request.completed += StartNextScene;
+        }
 
-			public bool IsDone()
-			{
-				return _request!=null && _request.isDone;
-			}
+        public void End()
+        {
+            _configData = null;
+        }
 
-			public float GetProgress()
-			{
-				if (_request!=null)
-				{
-					_lastProgress = _request.progress;
-				}
-				return _lastProgress;
-			}
+        public string GetStateText()
+        {
+            if (_request != null && _request.isDone && _request.progress < 1.0f)
+                return "Scene load failed " + _nextSceneName;
+            return "Starting Up!";
+        }
 
-			private void StartNextScene(AsyncOperation asyncOp)
-			{
-				try
-				{
-					Scene nextScene = SceneManager.GetSceneByName(_nextSceneName);
-					if (!nextScene.IsValid() || !nextScene.isLoaded) Debug.LogError("Next scene is not valid or could not be loaded.");
+        public bool IsDone()
+        {
+            return _request != null && _request.isDone;
+        }
 
-					// Start the next scene
-					Scene loadingScene = SceneManager.GetActiveScene();
-					SceneManager.SetActiveScene(nextScene);
+        public float GetProgress()
+        {
+            if (_request != null)
+            {
+                _lastProgress = _request.progress;
+            }
+            return _lastProgress;
+        }
 
-					// Tell the asset loader about the data.
-					ABAssetLoader.Initialize(_configData);
+        public void Retry()
+        {
+            Begin(_configData);
+        }
 
-					// this will kill our GameObject, btw...
-					SceneManager.UnloadSceneAsync(loadingScene);
-				}
-				catch (Exception loadingException)
-				{
-					Debug.LogError("Failed to start scene: "+loadingException);
-					throw;
-				}
-			}
-		}
-	}
+        /// <summary>
+        /// 加载下一个场景，卸载当前场景
+        /// </summary>
+        /// <param name="asyncOp"></param>
+        private void StartNextScene(AsyncOperation asyncOp)
+        {
+            try
+            {
+                Scene nextScene = SceneManager.GetSceneByName(_nextSceneName);
+                if (!nextScene.IsValid() || !nextScene.isLoaded) Debug.LogError("Next scene is not valid or could not be loaded.");
+
+                // Start the next scene
+                Scene loadingScene = SceneManager.GetActiveScene();
+                SceneManager.SetActiveScene(nextScene);
+
+                // Tell the asset loader about the data.
+                ABAssetLoader.Initialize(_configData);
+
+                // this will kill our GameObject, btw...
+                SceneManager.UnloadSceneAsync(loadingScene);
+            }
+            catch (Exception loadingException)
+            {
+                Debug.LogError("Failed to start scene: " + loadingException);
+                throw;
+            }
+        }
+
+
+    }
 }
