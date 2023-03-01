@@ -21,6 +21,9 @@ namespace xasset.editor
             postprocessBuildBundles?.Invoke(task);
         }
 
+        /// <summary>
+        /// 执行打包操作
+        /// </summary>
         public static void BuildBundles()
         {
             var tasks = new List<string>();

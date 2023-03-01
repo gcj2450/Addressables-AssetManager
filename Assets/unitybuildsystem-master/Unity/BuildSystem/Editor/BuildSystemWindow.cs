@@ -116,7 +116,6 @@ namespace BuildSystem
         {
             tip("测试：");
             btn("test TabNodeLeafWindow", TabNodeLeafTest.init);
-            btn("Check Sprites TagsAndBundles", SpriteChecker.CheckSpritesTagsAndBundles);
             
             tip("检测贴图：");
             btn("检测 贴图资源导入设置", TextureImportFix.checkTexture);
