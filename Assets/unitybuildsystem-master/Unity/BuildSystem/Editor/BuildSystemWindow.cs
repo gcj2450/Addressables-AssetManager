@@ -54,7 +54,6 @@ namespace BuildSystem
             btn("导出选中的mesh到obj文件，附带子mesh", ObjFromMeshFilter.ExportWithSubmesh);
             btn("导出选中mesh到obj文件，不带子mesh", ObjFromMeshFilter.ExportWithoutSubmesh);
 
-            btn("动画名字检测", AnimationNameChecker.Check);
             btn("渲染摄像机", RenderImage.Init);
         }
 
@@ -63,13 +62,6 @@ namespace BuildSystem
         {
             btn("检测动画控制器", AnimatorControllerGenerator.checkAnimatorControllers);
             btn("生成动画控制器", AnimatorControllerGenerator.generateAnimatorControllers, false);
-
-            btn("生成资源列表，assets.csv", ABMarkByRule.DoTheMarkAndSaveToCsv);
-
-            btn("精简动画，去掉scale信息", AnimationTimeExport.TrimScaleInfoInAnimation, false);
-            btn("生成动画时间，animationtime.csv", AnimationTimeExport.ExportAnimationTime);
-
-            btn("获取宠物怪物Npc等模型高度", ModelBoundingBox.GetAvatarHeight);
 
             btn("生成客户端配置数据和代码", gencsvcodeanddata);
             btn("生成客户端效果数据", geneffectdata);
@@ -122,21 +114,6 @@ namespace BuildSystem
 
         private void other()
         {
-            tip("打包By规则：");
-            btn("MarkByRule", ABMarkByRule.DoTheMarkAndSaveToCsv);
-            btn("检查资源重复", ABMarkByRule_DupWindow.CheckDup, false);
-            btn("显示资源重复窗口", ABMarkByRule_DupWindow.ShowDupWindow);
-
-
-            tip("打包By必须：");
-            btn("MarkOnlyNeeded", ABMarkOnlyNeeded.DoTheMarkAndSaveTheOnlyNeededAssetsCsv);
-            btn("检查资源重复", ABMarkOnlyNeeded_DupWindow.CheckDup, false);
-            btn("显示资源重复窗口", ABMarkOnlyNeeded_DupWindow.ShowDupWindow);
-
-            tip("打包：");
-            btn("打包资源到AssetBundles下", ABBuild.BuildAssetBundlesForActiveTarget, false);
-            btn("从AssetBundles拷到Assets下", ABBuild.CopyToAssets);
-
             tip("测试：");
             btn("test TabNodeLeafWindow", TabNodeLeafTest.init);
             btn("Check Sprites TagsAndBundles", SpriteChecker.CheckSpritesTagsAndBundles);

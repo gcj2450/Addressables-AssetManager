@@ -57,7 +57,7 @@ namespace Tools
                     }
                     else
                     {
-                        EditorLogger.Log("AnimatorController不存在 {0}", path);
+                        Debug.Log($"AnimatorController不存在 {path}");
                     }
                 }
             }
@@ -71,7 +71,7 @@ namespace Tools
                 return;
 
 
-            EditorLogger.Log("----检测开始 {0}", controllername);
+            Debug.Log($"----检测开始 {controllername}");
             initMotions();
             if (controller.layers.Length > 0)
             {
@@ -80,7 +80,7 @@ namespace Tools
                     var statename = cstate.state.name;
                     if (!containsMotion(statename))
                     {
-                        EditorLogger.Log("动画文件不存在 {0}", statename);
+                        Debug.Log($"动画文件不存在 {statename}");
                     }
                 }
 
@@ -92,18 +92,18 @@ namespace Tools
                         var param = anyTransition.conditions[0].parameter;
                         if (param != statename)
                         {
-                            EditorLogger.Log("AnyState 到 {0} 的condition {1} 和目的状态名字不一致", statename, param);
+                            Debug.Log($"AnyState 到 {statename} 的condition {param} 和目的状态名字不一致");
                         }
                     }
                     else
                     {
-                        EditorLogger.Log("AnyState 到 {0} 不止一个condition", statename);
+                        Debug.Log($"AnyState 到 {statename} 不止一个condition");
                     }
                 }
             }
 
             printUnusedMotions();
-            EditorLogger.Log("----检测完毕 {0}", controllername);
+            Debug.Log($"----检测完毕 {controllername}");
         }
 
 
@@ -139,12 +139,12 @@ namespace Tools
             string controllername = characterTemplate.controllerPath(characterName);
             AnimatorController newController = AnimatorController.CreateAnimatorControllerAtPath(controllername);
 
-            EditorLogger.Log("----生成开始 {0}", controllername);
+            Debug.Log($"----生成开始 {controllername}");
             initMotions();
             copyController(originController, newController);
             assignControllerToAnimator(newController);
             printUnusedMotions();
-            EditorLogger.Log("----生成完毕 {0}", controllername);
+            Debug.Log($"----生成完毕 {controllername}");
         }
 
 
@@ -162,7 +162,7 @@ namespace Tools
                 int index = file.LastIndexOfAny(new[] {'/', '\\'});
                 string motionfile = file.Substring(index + 1);
                 string motionname = motionfile.Substring(0, motionfile.Length - 5);
-                //EditorLogger.Log("动作 {0}", motionname);
+                //Debug.Log("动作 {0}", motionname);
                 string animPath = string.Format("{0}{1}/{2}.anim", characterTemplate.prefix, characterName, motionname);
                 Motion motion = AssetDatabase.LoadAssetAtPath<Motion>(animPath);
                 motions[motionname] = motion;
@@ -193,7 +193,7 @@ namespace Tools
             {
                 if (!usedmotions.Contains(kv.Key))
                 {
-                    EditorLogger.Log("动画文件未使用 {0}", kv.Key);
+                    Debug.Log($"动画文件未使用 {kv.Key}");
                 }
             }
         }
@@ -238,7 +238,7 @@ namespace Tools
                 }
                 else
                 {
-                    EditorLogger.Log("忽略参数 {0}", parameter.name);
+                    Debug.Log($"忽略参数 {parameter.name}");
                 }
             }
 
@@ -263,7 +263,7 @@ namespace Tools
                 }
                 else
                 {
-                    EditorLogger.Log("忽略状态 {0}", statename);
+                    Debug.Log($"忽略状态 {statename}" );
                 }
             }
             newStateMachine.defaultState = findState(originStateMachine.defaultState.name, newStateMachine);
@@ -304,14 +304,14 @@ namespace Tools
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             if (prefab == null)
             {
-                EditorLogger.Log("找不到怪物预制体: {0}", prefabPath);
+                Debug.Log($"找不到怪物预制体: {prefabPath}");
                 return;
             }
 
             Animator animator = prefab.GetComponent<Animator>();
             if (animator == null)
             {
-                EditorLogger.Log("怪物预制体上没有Animator组件: {0}", prefabPath);
+                Debug.Log($"怪物预制体上没有Animator组件: {prefabPath}" );
                 return;
             }
             animator.runtimeAnimatorController = newController;
