@@ -2,10 +2,10 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     [CustomEditor(typeof(SplitConfig))]
-    public class SplitConfigEditor : Editor
+    public class SplitConfigEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {

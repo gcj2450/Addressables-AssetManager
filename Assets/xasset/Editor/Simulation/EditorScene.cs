@@ -2,14 +2,14 @@
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     /// <summary>
     ///     编辑器场景实现类
     /// </summary>
-    public class EditorScene : Scene
+    public class EditorScene : ZionGameScene
     {
-        internal static Scene Create(string assetPath, bool additive = false)
+        internal static ZionGameScene Create(string assetPath, bool additive = false)
         {
             if (!File.Exists(assetPath))
             {

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     [ExecuteInEditMode]
     public class BackgroundAdapter : MonoBehaviour

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: EZAddresser_ccdf861
+  m_EditorClassIdentifier: 
+  m_GroupName: EZAddresser_ccdf861
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 6440b466258d3f543ae5cd5f32875f70
+  m_SerializeEntries: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 956bfc1d6393e584c8d66db726a39c68, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 013a2b9e4cb24584284649183646b384, type: 2}
+    - {fileID: 11400000, guid: f3c7835430b215c4ea6ec386fe2ebc02, type: 2}

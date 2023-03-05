@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     [Serializable]
     public class ReplaceBundleName

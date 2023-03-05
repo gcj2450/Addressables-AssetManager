@@ -1,8 +1,8 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using xasset.editor;
+using ZionGame.Editor;
 
-namespace xasset.example.editor
+namespace ZionGame.Example.Editor
 {
     [InitializeOnLoad]
     public static class BuildBundlesProcessor

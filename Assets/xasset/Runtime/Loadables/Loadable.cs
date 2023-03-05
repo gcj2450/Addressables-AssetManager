@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace xasset
+namespace ZionGame
 {
     public class Loadable
     {
@@ -90,7 +90,7 @@ namespace xasset
                 item.Complete();
             }
 
-            if (Scene.IsLoadingOrUnloading())
+            if (ZionGameScene.IsLoadingOrUnloading())
             {
                 return;
             }

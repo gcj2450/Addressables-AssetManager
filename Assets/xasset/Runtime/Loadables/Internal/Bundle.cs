@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace xasset
+namespace ZionGame
 {
     public class Bundle : Loadable
     {

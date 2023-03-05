@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     [CreateAssetMenu(menuName = "xasset/Build", fileName = "Build", order = 0)]
     public class Build : ScriptableObject

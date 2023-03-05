@@ -1,4 +1,4 @@
-﻿namespace xasset
+﻿namespace ZionGame
 {
     public enum DownloadStatus
     {

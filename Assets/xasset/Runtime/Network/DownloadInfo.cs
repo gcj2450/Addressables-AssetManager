@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace xasset
+namespace ZionGame
 {
     public class DownloadInfo
     {

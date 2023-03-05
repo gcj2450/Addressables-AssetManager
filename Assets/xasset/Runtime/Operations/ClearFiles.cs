@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace xasset
+namespace ZionGame
 {
     /// <summary>
     ///     异步删除文件的操作

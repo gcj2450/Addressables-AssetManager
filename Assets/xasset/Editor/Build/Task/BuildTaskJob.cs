@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     public abstract class BuildTaskJob
     {

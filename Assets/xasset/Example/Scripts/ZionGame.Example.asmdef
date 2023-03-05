@@ -1,0 +1,16 @@
+{
+    "name": "ZionGame.Example",
+    "rootNamespace": "",
+    "references": [
+        "ZionGame"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -9,5 +9,5 @@ EditorBuildSettings:
     path: Assets/AutoAssetBundleBuilder/testScenes/ABAutoLoader.unity
     guid: 7408bba154c774030ae81257693f975c
   m_configObjects:
-    com.unity.addressableassets: {fileID: 11400000, guid: b6b3924513511af48a4c8938c28fe6af,
+    com.unity.addressableassets: {fileID: 11400000, guid: e622db6f69e8bae4293a2109d24394bd,
       type: 2}

@@ -1,4 +1,4 @@
-﻿namespace xasset.editor
+﻿namespace ZionGame.Editor
 {
     public interface IAssetBundleManifest
     {

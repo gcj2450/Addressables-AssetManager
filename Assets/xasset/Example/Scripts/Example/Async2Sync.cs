@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Profiling;
 using UnityEngine.UI;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     public class Async2Sync : MonoBehaviour
     {

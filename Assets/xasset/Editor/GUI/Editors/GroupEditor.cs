@@ -2,10 +2,10 @@
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     [CustomEditor(typeof(Group))]
-    public class GroupEditor : Editor, IDependenciesEditor
+    public class GroupEditor : UnityEditor.Editor, IDependenciesEditor
     {
         [SerializeField] private TreeViewState treeViewState;
         [SerializeField] private MultiColumnHeaderState multiColumnHeaderState;

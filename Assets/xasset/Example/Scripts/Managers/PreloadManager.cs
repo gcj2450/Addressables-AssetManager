@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     [DisallowMultipleComponent]
     public class PreloadManager : MonoBehaviour
@@ -49,7 +49,7 @@ namespace xasset.example
             return Utility.FormatBytes(bytes);
         }
 
-        public void ShowProgress(Scene loading)
+        public void ShowProgress(ZionGameScene loading)
         {
             SetVisible(true);
             loading.completed += scene => { SetVisible(false); };

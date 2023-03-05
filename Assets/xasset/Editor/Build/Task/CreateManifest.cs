@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     public class CreateManifest : BuildTaskJob
     {

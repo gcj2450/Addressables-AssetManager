@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     [Serializable]
     public class MenuItem : MonoBehaviour
@@ -46,7 +46,7 @@ namespace xasset.example
                 }
             }
 
-            PreloadManager.Instance.ShowProgress(Scene.LoadAsync(name));
+            PreloadManager.Instance.ShowProgress(ZionGameScene.LoadAsync(name));
         }
 
         public void Bind(MenuItemConfig config)

@@ -1,6 +1,6 @@
 using Debug = UnityEngine.Debug;
 
-namespace xasset
+namespace ZionGame
 {
     public static class Logger
     {

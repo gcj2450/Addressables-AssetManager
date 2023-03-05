@@ -1,4 +1,4 @@
-﻿namespace xasset.editor
+﻿namespace ZionGame.Editor
 {
     /// <summary>
     ///     仿真模式的初始化操作

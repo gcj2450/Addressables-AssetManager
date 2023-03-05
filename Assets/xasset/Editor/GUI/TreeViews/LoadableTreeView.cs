@@ -7,7 +7,7 @@ using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     internal static class ExtensionMethods
     {

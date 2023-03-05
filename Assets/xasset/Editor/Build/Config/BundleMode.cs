@@ -1,4 +1,4 @@
-﻿namespace xasset.editor
+﻿namespace ZionGame.Editor
 {
     /// <summary>
     ///     打包模式，用来控制打包粒度

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace xasset
+namespace ZionGame
 {
     public class BundledAsset : Asset
     {

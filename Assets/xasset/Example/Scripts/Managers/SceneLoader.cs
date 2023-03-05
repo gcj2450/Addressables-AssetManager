@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     public class SceneLoader : MonoBehaviour
     {
@@ -10,7 +10,7 @@ namespace xasset.example
         public bool loadOnAwake = true;
         public bool showProgress;
 
-        private Scene loading;
+        private ZionGameScene loading;
 
         private void Start()
         {
@@ -38,7 +38,7 @@ namespace xasset.example
                 return;
             }
 
-            loading = Scene.LoadAsync(scene.ToString());
+            loading = ZionGameScene.LoadAsync(scene.ToString());
             if (showProgress)
             {
                 PreloadManager.Instance.ShowProgress(loading);

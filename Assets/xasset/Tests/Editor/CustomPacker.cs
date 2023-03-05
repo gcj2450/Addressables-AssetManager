@@ -2,9 +2,9 @@
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using xasset.editor;
+using ZionGame.Editor;
 
-namespace xasset.tests.editor
+namespace ZionGame.Tests.Editor
 {
     public class CustomPacker
     {

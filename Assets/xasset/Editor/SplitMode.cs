@@ -1,4 +1,4 @@
-﻿namespace xasset.editor
+﻿namespace ZionGame.Editor
 {
     /// <summary>
     ///     分包模式

@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     public class BuiltinBuildPipeline : ABuildPipeline
     {

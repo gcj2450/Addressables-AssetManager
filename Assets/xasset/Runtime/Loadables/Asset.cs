@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Object = UnityEngine.Object;
 
-namespace xasset
+namespace ZionGame
 {
     public class Asset : Loadable, IEnumerator
     {

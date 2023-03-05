@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     internal class DependenciesTreeView : TreeView
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace xasset
+namespace ZionGame
 {
     /// <summary>
     ///     异步获取下载大小。

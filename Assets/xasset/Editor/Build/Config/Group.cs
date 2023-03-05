@@ -5,12 +5,12 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     /// <summary>
     ///     资源的打包分组。
     /// </summary>
-    [CreateAssetMenu(menuName = "xasset/Group", fileName = "Group", order = 0)]
+    [CreateAssetMenu(menuName = "ZionGame/Group", fileName = "Group", order = 0)]
     public class Group : ScriptableObject
     {
         /// <summary>

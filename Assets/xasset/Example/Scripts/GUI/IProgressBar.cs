@@ -1,4 +1,4 @@
-﻿namespace xasset.example
+﻿namespace ZionGame.Example
 {
     public interface IProgressBar
     {

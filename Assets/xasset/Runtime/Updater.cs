@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace xasset
+namespace ZionGame
 {
     [DisallowMultipleComponent]
     public sealed class Updater : MonoBehaviour

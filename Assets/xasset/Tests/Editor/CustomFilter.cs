@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine.TestTools;
-using xasset.editor;
+using ZionGame.Editor;
 
-namespace xasset.tests.editor
+namespace ZionGame.Tests.Editor
 {
     public class CustomFilter
     {

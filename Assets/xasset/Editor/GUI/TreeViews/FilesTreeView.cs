@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEditor.IMGUI.Controls;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     internal class FilesTreeView : TreeView
     {

@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     /// <summary>
     ///     分包配置

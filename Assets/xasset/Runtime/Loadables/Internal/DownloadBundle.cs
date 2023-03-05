@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace xasset
+namespace ZionGame
 {
     internal class DownloadBundle : Bundle
     {

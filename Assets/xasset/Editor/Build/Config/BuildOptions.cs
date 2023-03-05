@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     [Serializable]
     public class BuildOptions

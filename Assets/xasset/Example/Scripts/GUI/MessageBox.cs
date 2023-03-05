@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     public class MessageBox : IEnumerator
     {

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     public class Dialog : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     public class LoadAssetWithCycleReference : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace xasset
+namespace ZionGame
 {
     public interface IDownloadFilesHandler
     {

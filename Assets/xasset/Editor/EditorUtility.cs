@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     public static class EditorUtility
     {

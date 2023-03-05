@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     public class AutoGroup : BuildTaskJob
     {

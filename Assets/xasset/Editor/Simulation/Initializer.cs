@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using UnityEngine;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     public static class Initializer
     {
@@ -20,7 +20,7 @@ namespace xasset.editor
                 case ScriptPlayMode.Simulation:
                     settings.Initialize();
                     Asset.Creator = EditorAsset.Create;
-                    Scene.Creator = EditorScene.Create;
+                    ZionGameScene.Creator = EditorScene.Create;
                     Versions.Initializer = () => new EditorInitializeVersions();
                     break;
                 case ScriptPlayMode.Preload:

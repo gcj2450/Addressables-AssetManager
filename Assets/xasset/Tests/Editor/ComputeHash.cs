@@ -1,9 +1,9 @@
 using System.IO;
 using NUnit.Framework;
 using UnityEngine;
-using xasset.editor;
+using ZionGame.Editor;
 
-namespace xasset.tests.editor
+namespace ZionGame.Tests.Editor
 {
     public class ComputeHash
     {

@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
 
-namespace xasset
+namespace ZionGame
 {
     public sealed class RawAsset : Loadable
     {

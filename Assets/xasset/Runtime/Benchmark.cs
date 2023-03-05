@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-namespace xasset
+namespace ZionGame
 {
     public class Benchmark : MonoBehaviour
     {
@@ -91,7 +91,7 @@ namespace xasset
             }
             else if (path.EndsWith(".unity"))
             {
-                item.loadable = Scene.LoadAsync(path, null, true);
+                item.loadable = ZionGameScene.LoadAsync(path, null, true);
             }
             else
             {

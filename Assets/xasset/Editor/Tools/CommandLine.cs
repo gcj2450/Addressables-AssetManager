@@ -3,7 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     /// <summary>
     ///     命令行打包工具

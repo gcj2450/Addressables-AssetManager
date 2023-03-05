@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     [Serializable]
     public class MenuItemConfig

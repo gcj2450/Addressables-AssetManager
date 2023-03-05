@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     public class LoadSceneAdditive : MonoBehaviour
     {
         public string sceneName;
-        private readonly List<Scene> _scenes = new List<Scene>();
+        private readonly List<ZionGameScene> _scenes = new List<ZionGameScene>();
 
         public void Unload()
         {
@@ -21,7 +21,7 @@ namespace xasset.example
 
         public void Load()
         {
-            _scenes.Add(Scene.LoadAsync(sceneName, null, true));
+            _scenes.Add(ZionGameScene.LoadAsync(sceneName, null, true));
         }
     }
 }

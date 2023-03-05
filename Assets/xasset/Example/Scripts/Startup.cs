@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 //需要将打包出的Bundles文件夹放到服务器上才能运行
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     [RequireComponent(typeof(Updater))]
     [DisallowMultipleComponent]

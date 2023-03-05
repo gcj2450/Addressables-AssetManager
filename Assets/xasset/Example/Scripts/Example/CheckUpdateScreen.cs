@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     public class CheckUpdateScreen : MonoBehaviour
     {
@@ -112,7 +112,7 @@ namespace xasset.example
 
         private static IEnumerator LoadScene()
         {
-            var scene = Scene.LoadAsync("Menu");
+            var scene = ZionGameScene.LoadAsync("Menu");
             PreloadManager.Instance.ShowProgress(scene);
             yield return scene;
         }

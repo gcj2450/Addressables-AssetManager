@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     public class BuildBundles : BuildTaskJob
     {

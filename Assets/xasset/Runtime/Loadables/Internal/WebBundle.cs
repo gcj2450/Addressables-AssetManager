@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-namespace xasset
+namespace ZionGame
 {
     public class WebBundle : Bundle
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     [CreateAssetMenu(menuName = "xasset/Settings", fileName = "Settings", order = 0)]
     public sealed class Settings : ScriptableObject

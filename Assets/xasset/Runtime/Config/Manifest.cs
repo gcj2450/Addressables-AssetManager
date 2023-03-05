@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace xasset
+namespace ZionGame
 {
     public class Manifest : ScriptableObject
     {

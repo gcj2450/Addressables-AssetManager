@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace xasset.tests
+namespace ZionGame.Tests
 {
     public class RuntimeAPI
     {
@@ -89,7 +89,7 @@ namespace xasset.tests
         public IEnumerator LoadScene()
         {
             yield return InitializeAsync();
-            var scene = Scene.LoadAsync("Assets/Versions.Example/Scenes/Welcome.unity");
+            var scene = ZionGameScene.LoadAsync("Assets/Versions.Example/Scenes/Welcome.unity");
             scene.completed += s =>
             {
                 Debug.Log($"Completed:{s.pathOrURL}");

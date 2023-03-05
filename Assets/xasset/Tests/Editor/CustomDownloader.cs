@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using UnityEngine.TestTools;
 
-namespace xasset.tests.editor
+namespace ZionGame.Tests.Editor
 {
     public class CustomDownloader
     {

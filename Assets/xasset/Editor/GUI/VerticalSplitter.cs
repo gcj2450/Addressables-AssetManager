@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     public class VerticalSplitter
     {

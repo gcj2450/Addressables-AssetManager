@@ -1,6 +1,6 @@
 using System;
 
-namespace xasset
+namespace ZionGame
 {
     [Serializable]
     public class ManifestAsset

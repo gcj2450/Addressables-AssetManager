@@ -8,7 +8,7 @@ using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     public class LoadablesWindow : EditorWindow
     {
@@ -230,7 +230,7 @@ namespace xasset.editor
                                 case Asset asset:
                                     assets.Add(asset.asset);
                                     break;
-                                case Scene scene:
+                                case ZionGameScene scene:
                                     assets.Add(AssetDatabase.LoadAssetAtPath<SceneAsset>(scene.pathOrURL));
                                     break;
                             }
@@ -311,10 +311,10 @@ namespace xasset.editor
                         }
                     }
 
-                    if (Scene.main != null && Scene.main.isDone)
+                    if (ZionGameScene.main != null && ZionGameScene.main.isDone)
                     {
-                        loadables.Add(Scene.main);
-                        loadables.AddRange(Scene.main.additives);
+                        loadables.Add(ZionGameScene.main);
+                        loadables.AddRange(ZionGameScene.main.additives);
                     }
 
                     break;

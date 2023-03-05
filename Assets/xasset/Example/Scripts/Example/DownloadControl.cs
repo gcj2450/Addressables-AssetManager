@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     public class DownloadControl : MonoBehaviour
     {

@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 using UnityEngine;
 
-namespace xasset
+namespace ZionGame
 {
     public sealed class UnpackFiles : Operation
     {

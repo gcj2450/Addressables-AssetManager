@@ -1,8 +1,8 @@
 ﻿using UnityEngine.SceneManagement;
 
-namespace xasset
+namespace ZionGame
 {
-    public class BundledScene : Scene
+    public class BundledScene : ZionGameScene
     {
         private Dependencies _dependencies;
 

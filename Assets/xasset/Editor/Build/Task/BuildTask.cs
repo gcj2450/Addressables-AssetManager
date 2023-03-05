@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace xasset.editor
+namespace ZionGame.Editor
 {
     public class BuildTask
     {

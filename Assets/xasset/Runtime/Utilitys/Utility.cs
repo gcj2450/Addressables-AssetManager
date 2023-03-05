@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 
-namespace xasset
+namespace ZionGame
 {
     public static class Utility
     {

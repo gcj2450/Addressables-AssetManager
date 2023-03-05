@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace xasset.example
+namespace ZionGame.Example
 {
     public class ScrollContent : MonoBehaviour
     {
