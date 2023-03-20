@@ -35,6 +35,7 @@ namespace ZionGame
                 assetHashes = assetHash;
                 assetBundle = null;  // runtime only
                 md5 = fileMd5;
+                BundleFullPath = "";
             }
 
             /// <summary>
@@ -80,6 +81,11 @@ namespace ZionGame
             /// </summary>
             [NonSerialized]
             public AssetBundle assetBundle;
+            /// <summary>
+            /// 在本地存储的完整路径
+            /// </summary>
+            [NonSerialized]
+            public string BundleFullPath;
         }
 
         public void GenerateRuntimeTypes()

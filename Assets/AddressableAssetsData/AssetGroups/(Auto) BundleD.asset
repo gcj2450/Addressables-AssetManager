@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: (Auto) BundleD
+  m_EditorClassIdentifier: 
+  m_GroupName: (Auto) BundleD
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 298051e5ec6a7f64dad29ec94b7436c6
+  m_SerializeEntries:
+  - m_GUID: 08a218f0b621ee34ba502d5aa40ba37e
+    m_Address: BundleD/ABNextScene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 956bfc1d6393e584c8d66db726a39c68, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 56628f3249888b14897d3af3ad7abce2, type: 2}
+    - {fileID: 11400000, guid: 426a2bafed694e04c91ea621a24c05ce, type: 2}

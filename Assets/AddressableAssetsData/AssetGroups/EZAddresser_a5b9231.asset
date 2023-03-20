@@ -16,7 +16,15 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: dfba65b23e877e846ab50b3b426f9e30
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 593a5b492d29ac6448b1ebf7f035ef33
+    m_Address: UniTask.Addressables
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: 3dc6441f9094f354b931dc3c79fb99e5
+    m_Address: AddressablesAsyncExtensions
+    m_ReadOnly: 1
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 956bfc1d6393e584c8d66db726a39c68, type: 2}
   m_SchemaSet:

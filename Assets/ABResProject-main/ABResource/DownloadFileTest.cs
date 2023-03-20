@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,23 +19,23 @@ public class DownloadFileTest : MonoBehaviour
 
         _downloadFile.OnError += (ex) =>
         {
-            UnityEngine.Debug.Log("²¶»ñÒì³£ >>> " + ex);
+            UnityEngine.Debug.Log("æ•èŽ·å¼‚å¸¸ >>> " + ex);
         };
 
 
-        // ¶àÏß³ÌÏÂÔØÎÄ¼þÖÁÄÚ´æ ÎÞ·¨¶ÏµãÐø´«
-        // filePath = System.IO.Path.Combine(savePath, "./¶àÏß³ÌÏÂÔØÖÁÄÚ´æ.exe");
+        // å¤šçº¿ç¨‹ä¸‹è½½æ–‡ä»¶è‡³å†…å­˜ æ— æ³•æ–­ç‚¹ç»­ä¼ 
+        // filePath = System.IO.Path.Combine(savePath, "./å¤šçº¿ç¨‹ä¸‹è½½è‡³å†…å­˜.exe");
         // _downloadFile.DownloadToMemory(
         //     4,
         //     (size, count) =>
         //     {
-        //         UnityEngine.Debug.LogFormat("[{0}]ÏÂÔØ½ø¶È >>> {1}/{2}", "¶àÏß³ÌÏÂÔØÖÁÄÚ´æ", size, count);
+        //         UnityEngine.Debug.LogFormat("[{0}]ä¸‹è½½è¿›åº¦ >>> {1}/{2}", "å¤šçº¿ç¨‹ä¸‹è½½è‡³å†…å­˜", size, count);
         //     },
         //     (data) =>
         //     {
-        //         UnityEngine.Debug.LogFormat("[{0}]ÏÂÔØÍê±Ï>>>{1}", "¶àÏß³ÌÏÂÔØÖÁÄÚ´æ", data.Length);
+        //         UnityEngine.Debug.LogFormat("[{0}]ä¸‹è½½å®Œæ¯•>>>{1}", "å¤šçº¿ç¨‹ä¸‹è½½è‡³å†…å­˜", data.Length);
 
-        //         // ÏÂÔØÖÁÄÚ´æºó±£´æµ½ÎÄ¼þ
+        //         // ä¸‹è½½è‡³å†…å­˜åŽä¿å­˜åˆ°æ–‡ä»¶
         //         if (!System.IO.File.Exists(filePath))
         //         {
         //             System.IO.File.Create(filePath).Dispose();
@@ -45,18 +45,18 @@ public class DownloadFileTest : MonoBehaviour
         //     }
         // );
 
-        // ¶àÏß³ÌÏÂÔØÎÄ¼þÖÁ±¾µØ Ö§³Ö¶ÏµãÐø´«
-        filePath = System.IO.Path.Combine(savePath, "./¶àÏß³ÌÏÂÔØÖÁ±¾µØ.exe");
+        // å¤šçº¿ç¨‹ä¸‹è½½æ–‡ä»¶è‡³æœ¬åœ° æ”¯æŒæ–­ç‚¹ç»­ä¼ 
+        filePath = System.IO.Path.Combine(savePath, "./å¤šçº¿ç¨‹ä¸‹è½½è‡³æœ¬åœ°.exe");
         _downloadFile.DownloadToFile(
             4,
             filePath,
             (size, count) =>
             {
-                UnityEngine.Debug.LogFormat("[{0}]ÏÂÔØ½ø¶È >>> {1}/{2}", "¶àÏß³ÌÏÂÔØÖÁ±¾µØ", size, count);
+                UnityEngine.Debug.LogFormat("[{0}]ä¸‹è½½è¿›åº¦ >>> {1}/{2}", "å¤šçº¿ç¨‹ä¸‹è½½è‡³æœ¬åœ°", size, count);
             },
             (data) =>
             {
-                UnityEngine.Debug.LogFormat("[{0}]ÏÂÔØÍê±Ï>>>{1}", "¶àÏß³ÌÏÂÔØÖÁ±¾µØ", data.Length);
+                UnityEngine.Debug.LogFormat("[{0}]ä¸‹è½½å®Œæ¯•>>>{1}", "å¤šçº¿ç¨‹ä¸‹è½½è‡³æœ¬åœ°", data.Length);
             }
         );
 
