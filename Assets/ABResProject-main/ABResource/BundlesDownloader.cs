@@ -7,9 +7,8 @@ using System.Reflection;
 using System.Collections;
 using UnityEditor.VersionControl;
 using static ZionGame.ABManifest;
-using ZionGame;
 
-namespace Baidu.Meta.ComponentsBundleLoader.Runtime
+namespace ZionGame
 {
     public class BundlesDownloader
     {

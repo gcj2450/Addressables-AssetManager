@@ -5,29 +5,28 @@ using System.IO;
 using UnityEngine;
 using System.Security.Cryptography;
 
-namespace Baidu.Meta.ComponentsBundleLoader.Runtime
+namespace ZionGame
 {
     public class BundleFileDownloader
     {
-        /// <summary>
-        /// 下载地址
-        /// </summary>
-        public string Url;
-
-        public event Action<Exception> OnError;
+        private event Action<Exception> OnError;
 
         private SynchronizationContext mainThreadSyncContext;
         private int threadCount = 1;
         private static object errorlock = new object();
+        private bool isDownloading = false;
 
-        private bool _isDownloading = false;
-        public BundleFileDownloader(string _url, int _threadCount = 1)
+        public BundleFileDownloader(int _threadCount = 1)
         {
+            if (_threadCount > 8)
+            {
+                //限制不超过8个
+                _threadCount = 8;
+            }
             mainThreadSyncContext = SynchronizationContext.Current;
             //Http协议的并发连接数限制
             System.Net.ServicePointManager.DefaultConnectionLimit = 512;
             threadCount = _threadCount;
-            Url = _url;
         }
 
         /// <summary>
@@ -36,23 +35,30 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
         /// <param name="filePath">保存文件路径</param>
         /// <param name="onDownloading">下载过程回调（已下载文件大小、总文件大小）</param>
         /// <param name="onComplete">下载完毕回调（下载文件数据）</param>
-        public void DownloadToFile(string filePath, Action<long, long> onDownloading = null, Action<byte[]> onComplete = null)
+        public void DownloadToFilePath(string _url, string _filePath, Action<long, long> _onDownloading = null, Action<string, string> _onComplete = null, Action<Exception> _onError = null)
         {
-            _isDownloading = true;
-
+            if (File.Exists(_filePath))
+            {
+                Debug.Log("file already exists");
+                if (_onComplete != null)
+                    _onComplete(_url, _filePath);
+                return;
+            }
+            isDownloading = true;
+            OnError = _onError;
             long csize = 0; //已下载大小
             int ocnt = 0;   //完成线程数
 
 
             // 下载逻辑
-            GetFileSizeAsyn((size) =>
+            GetFileSizeAsyn(_url, (size) =>
             {
                 if (size == -1) return;
                 // 准备工作
                 var tempFilePaths = new string[threadCount];
                 var tempFileFileStreams = new FileStream[threadCount];
-                var dirPath = Path.GetDirectoryName(filePath);
-                var fileName = Path.GetFileName(filePath);
+                var dirPath = Path.GetDirectoryName(_filePath);
+                var fileName = Path.GetFileName(_filePath);
                 // 下载根目录不存在则创建
                 if (!Directory.Exists(dirPath))
                 {
@@ -71,7 +77,7 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
                 // 创建下载临时文件，并创建文件流
                 for (int i = 0; i < threadCount; i++)
                 {
-                    tempFilePaths[i] = filePath + i + ".temp";
+                    tempFilePaths[i] = _filePath + i + ".temp";
                     if (!File.Exists(tempFilePaths[i]))
                     {
                         File.Create(tempFilePaths[i]).Dispose();
@@ -86,7 +92,7 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
                 {
                     csize += rsize;
                     tempFileFileStreams[index].Write(rbytes, 0, (int)rsize);
-                    PostMainThreadAction<long, long>(onDownloading, csize, size);
+                    PostMainThreadAction<long, long>(_onDownloading, csize, size);
                 };
                 // 单线程下载完毕回调函数
                 Action<int, byte[]> t_onTrigger = (index, data) =>
@@ -97,15 +103,15 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
                     if (ocnt >= threadCount)
                     {
                         // 将临时文件转为下载文件
-                        if (!File.Exists(filePath))
+                        if (!File.Exists(_filePath))
                         {
-                            File.Create(filePath).Dispose();
+                            File.Create(_filePath).Dispose();
                         }
                         else
                         {
-                            File.WriteAllBytes(filePath, new byte[] { });
+                            File.WriteAllBytes(_filePath, new byte[] { });
                         }
-                        FileStream fs = File.OpenWrite(filePath);
+                        FileStream fs = File.OpenWrite(_filePath);
                         fs.Seek(fs.Length, System.IO.SeekOrigin.Current);
                         foreach (var tempPath in tempFilePaths)
                         {
@@ -114,7 +120,7 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
                             File.Delete(tempPath);
                         }
                         fs.Close();
-                        PostMainThreadAction<byte[]>(onComplete, File.ReadAllBytes(filePath));
+                        PostMainThreadAction<string, string>(_onComplete, _url, _filePath);
                     }
                 };
                 // 分割文件尺寸，多线程下载
@@ -132,7 +138,115 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
                         continue;
                     }
 
-                    _threadDownload(i / 2, from, to, t_onDownloading, t_onTrigger);
+                    _threadDownload(_url, i / 2, from, to, t_onDownloading, t_onTrigger);
+                }
+            });
+        }
+
+        public void DownloadToFileBytes(string _url, string _filePath, Action<long, long> _onDownloading = null, Action<string, byte[]> _onComplete = null, Action<Exception> _onError = null)
+        {
+            if (File.Exists(_filePath))
+            {
+                Debug.Log("file already exists");
+                if (_onComplete != null)
+                    _onComplete(_url, File.ReadAllBytes(_filePath));
+                return;
+            }
+            isDownloading = true;
+            OnError = _onError;
+            long csize = 0; //已下载大小
+            int ocnt = 0;   //完成线程数
+
+
+            // 下载逻辑
+            GetFileSizeAsyn(_url, (size) =>
+            {
+                if (size == -1) return;
+                // 准备工作
+                var tempFilePaths = new string[threadCount];
+                var tempFileFileStreams = new FileStream[threadCount];
+                var dirPath = Path.GetDirectoryName(_filePath);
+                var fileName = Path.GetFileName(_filePath);
+                // 下载根目录不存在则创建
+                if (!Directory.Exists(dirPath))
+                {
+                    Directory.CreateDirectory(dirPath);
+                }
+                // 查看下载临时文件是否可以继续断点续传
+                var fileInfos = new DirectoryInfo(dirPath).GetFiles(fileName + "*.temp");
+                if (fileInfos.Length != threadCount)
+                {
+                    // 下载临时文件数量不相同，则清理
+                    foreach (var info in fileInfos)
+                    {
+                        info.Delete();
+                    }
+                }
+                // 创建下载临时文件，并创建文件流
+                for (int i = 0; i < threadCount; i++)
+                {
+                    tempFilePaths[i] = _filePath + i + ".temp";
+                    if (!File.Exists(tempFilePaths[i]))
+                    {
+                        File.Create(tempFilePaths[i]).Dispose();
+                    }
+                    tempFileFileStreams[i] = File.OpenWrite(tempFilePaths[i]);
+                    tempFileFileStreams[i].Seek(tempFileFileStreams[i].Length, System.IO.SeekOrigin.Current);
+
+                    csize += tempFileFileStreams[i].Length;
+                }
+                // 单线程下载过程回调函数
+                Action<int, long, byte[], byte[]> t_onDownloading = (index, rsize, rbytes, data) =>
+                {
+                    csize += rsize;
+                    tempFileFileStreams[index].Write(rbytes, 0, (int)rsize);
+                    PostMainThreadAction<long, long>(_onDownloading, csize, size);
+                };
+                // 单线程下载完毕回调函数
+                Action<int, byte[]> t_onTrigger = (index, data) =>
+                {
+                    // 关闭文件流
+                    tempFileFileStreams[index].Close();
+                    ocnt++;
+                    if (ocnt >= threadCount)
+                    {
+                        // 将临时文件转为下载文件
+                        if (!File.Exists(_filePath))
+                        {
+                            File.Create(_filePath).Dispose();
+                        }
+                        else
+                        {
+                            File.WriteAllBytes(_filePath, new byte[] { });
+                        }
+                        FileStream fs = File.OpenWrite(_filePath);
+                        fs.Seek(fs.Length, System.IO.SeekOrigin.Current);
+                        foreach (var tempPath in tempFilePaths)
+                        {
+                            var tempData = File.ReadAllBytes(tempPath);
+                            fs.Write(tempData, 0, tempData.Length);
+                            File.Delete(tempPath);
+                        }
+                        fs.Close();
+                        PostMainThreadAction<string, byte[]>(_onComplete, _url, File.ReadAllBytes(_filePath));
+                    }
+                };
+                // 分割文件尺寸，多线程下载
+                long[] sizes = SplitFileSize(size, threadCount);
+                for (int i = 0; i < sizes.Length; i = i + 2)
+                {
+                    long from = sizes[i];
+                    long to = sizes[i + 1];
+
+                    // 断点续传
+                    from += tempFileFileStreams[i / 2].Length;
+                    if (from >= to)
+                    {
+                        t_onTrigger(i / 2, null);
+                        continue;
+                    }
+
+                    _threadDownload(_url, i / 2, from, to, t_onDownloading, t_onTrigger);
                 }
             });
         }
@@ -142,22 +256,22 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
         /// </summary>
         /// <param name="onDownloading">下载过程回调（已下载文件大小、总文件大小）</param>
         /// <param name="onTrigger">下载完毕回调（下载文件数据）</param>
-        public void DownloadToMemory(Action<long, long> onDownloading = null, Action<byte[]> onTrigger = null)
+        public void DownloadToMemory(string _url, Action<long, long> _onDownloading = null, Action<string, byte[]> _onTrigger = null, Action<Exception> _onError = null)
         {
-            _isDownloading = true;
-
+            isDownloading = true;
+            OnError = _onError;
             long csize = 0; // 已下载大小
             int ocnt = 0;   // 完成线程数
             byte[] cdata;  // 已下载数据
                            // 下载逻辑
-            GetFileSizeAsyn((size) =>
+            GetFileSizeAsyn(_url, (size) =>
             {
                 cdata = new byte[size];
                 // 单线程下载过程回调函数
                 Action<int, long, byte[], byte[]> t_onDownloading = (index, rsize, rbytes, data) =>
                 {
                     csize += rsize;
-                    PostMainThreadAction<long, long>(onDownloading, csize, size);
+                    PostMainThreadAction<long, long>(_onDownloading, csize, size);
                 };
                 // 单线程下载完毕回调函数
                 Action<int, byte[]> t_onTrigger = (index, data) =>
@@ -168,7 +282,7 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
                     ocnt++;
                     if (ocnt >= threadCount)
                     {
-                        PostMainThreadAction<byte[]>(onTrigger, cdata);
+                        PostMainThreadAction<string, byte[]>(_onTrigger, _url, cdata);
                     }
                 };
                 // 分割文件尺寸，多线程下载
@@ -177,7 +291,7 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
                 {
                     long from = sizes[i];
                     long to = sizes[i + 1];
-                    _threadDownload(i / 2, from, to, t_onDownloading, t_onTrigger);
+                    _threadDownload(_url, i / 2, from, to, t_onDownloading, t_onTrigger);
                 }
             });
         }
@@ -190,14 +304,14 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
         /// <param name="to">下载结束位置</param>
         /// <param name="onDownloading">下载过程回调（线程ID、单次下载数据大小、单次下载数据缓存区、已下载文件数据）</param>
         /// <param name="onTrigger">下载完毕回调（线程ID、下载文件数据）</param>
-        private void _threadDownload(int index, long from, long to, Action<int, long, byte[], byte[]> onDownloading = null, Action<int, byte[]> onTrigger = null)
+        private void _threadDownload(string _url, int _threadIndex, long _from, long _to, Action<int, long, byte[], byte[]> _onDownloading = null, Action<int, byte[]> _onTrigger = null)
         {
             Thread thread = new Thread(new ThreadStart(() =>
             {
                 try
                 {
-                    var request = (HttpWebRequest)HttpWebRequest.Create(new Uri(Url));
-                    request.AddRange(from, to);
+                    var request = (HttpWebRequest)HttpWebRequest.Create(new Uri(_url));
+                    request.AddRange(_from, _to);
 
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                     Stream ns = response.GetResponseStream();
@@ -207,26 +321,26 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
                     MemoryStream ms = new MemoryStream();
                     while (true)
                     {
-                        if (!_isDownloading) return;
+                        if (!isDownloading) return;
                         rSize = ns.Read(rbytes, 0, rbytes.Length);
                         if (rSize <= 0) break;
                         ms.Write(rbytes, 0, rSize);
-                        if (onDownloading != null) onDownloading(index, rSize, rbytes, ms.ToArray());
+                        if (_onDownloading != null) _onDownloading(_threadIndex, rSize, rbytes, ms.ToArray());
                     }
 
                     ns.Close();
                     response.Close();
                     request.Abort();
 
-                    if (ms.Length == (to - from) + 1)
+                    if (ms.Length == (_to - _from) + 1)
                     {
-                        if (onTrigger != null) onTrigger(index, ms.ToArray());
+                        if (_onTrigger != null) _onTrigger(_threadIndex, ms.ToArray());
                     }
                     else
                     {
                         lock (errorlock)
                         {
-                            if (_isDownloading)
+                            if (isDownloading)
                             {
                                 onError(new Exception("文件大小校验不通过"));
                             }
@@ -248,13 +362,13 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
         /// 查询文件大小
         /// </summary>
         /// <returns></returns>
-        long GetFileSize()
+        long GetFileSize(string _url)
         {
             HttpWebRequest request;
             HttpWebResponse response;
             try
             {
-                request = (HttpWebRequest)HttpWebRequest.CreateHttp(new Uri(Url));
+                request = (HttpWebRequest)HttpWebRequest.CreateHttp(new Uri(_url));
                 request.Method = "HEAD";
                 response = (HttpWebResponse)request.GetResponse();
                 // 获得文件长度
@@ -277,11 +391,11 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
         /// 获取文件大小
         /// </summary>
         /// <param name="onTrigger"></param>
-        void GetFileSizeAsyn(Action<long> onTrigger = null)
+        void GetFileSizeAsyn(string _url, Action<long> _onTrigger = null)
         {
             ThreadStart threadStart = new ThreadStart(() =>
             {
-                PostMainThreadAction<long>(onTrigger, GetFileSize());
+                PostMainThreadAction<long>(_onTrigger, GetFileSize(_url));
             });
             Thread thread = new Thread(threadStart);
             thread.Start();
@@ -289,20 +403,20 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
 
         public void Close()
         {
-            _isDownloading = false;
+            isDownloading = false;
         }
 
         /// <summary>
         /// 分割文件
         /// </summary>
         /// <returns></returns>
-        private long[] SplitFileSize(long size, int count)
+        private long[] SplitFileSize(long _size, int _count)
         {
-            long[] result = new long[count * 2];
-            for (int i = 0; i < count; i++)
+            long[] result = new long[_count * 2];
+            for (int i = 0; i < _count; i++)
             {
-                long from = (long)Math.Ceiling((double)(size * i / count));
-                long to = (long)Math.Ceiling((double)(size * (i + 1) / count)) - 1;
+                long from = (long)Math.Ceiling((double)(_size * i / _count));
+                long to = (long)Math.Ceiling((double)(_size * (i + 1) / _count)) - 1;
                 result[i * 2] = from;
                 result[i * 2 + 1] = to;
             }
@@ -310,41 +424,56 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
             return result;
         }
 
-        private void onError(Exception ex)
+        private void onError(Exception _ex)
         {
             Close();
-            PostMainThreadAction<Exception>(OnError, ex);
+            PostMainThreadAction<Exception>(OnError, _ex);
         }
 
-        //=================================================================
+        //=======================================
         #region SimpleDownloader
 
-        public static string PERSIST_EXP = ".cdel";
-        FileStream writer = null;
-        WebResponse response = null;
+        static string PERSIST_EXP = ".cdel";
 
-        public void SingleThreadDownload(string _url, string _savePath, Action<float> _onProgreeUpdate, Action<bool, string> _onComplete)
+        /// <summary>
+        /// 单线程下载，不回调OnError
+        /// </summary>
+        /// <param name="_savePath">保存地址</param>
+        /// <param name="_onProgreeUpdate">进度更新</param>
+        /// <param name="_onComplete">下载完成可能是失败</param>
+        public void SingleThreadDownload(string _url, string _savePath, Action<long, long> _onDownloading, Action<string, string> _onComplete, Action<Exception> _onError = null)
         {
-            float csize = 0;
-            Action<float> t_onDownloading = (rsize) =>
+            if (File.Exists(_savePath))
+            {
+                Debug.Log("file already exists");
+                if (_onComplete != null)
+                    _onComplete(_url, _savePath);
+                return;
+            }
+
+            isDownloading = true;
+            long csize = 0;
+            long tSize = 0;
+            OnError = _onError;
+            Action<long, long> t_onDownloading = (rsize, totalSize) =>
             {
                 csize = rsize;
-                PostMainThreadAction<float>(_onProgreeUpdate, csize);
+                tSize = totalSize;
+                PostMainThreadAction<long, long>(_onDownloading, csize, tSize);
             };
 
-            bool rstatus = false;
-            string errorStr = "";
-            Action<bool, string> t_onComplete = (_rstatus, _errorStr) =>
+            string rstatus = _url;
+            string resultstr = _savePath;
+            Action<string, string> t_onComplete = (_rstatus, _errorStr) =>
             {
                 rstatus = _rstatus;
-                errorStr = _errorStr;
-                PostMainThreadAction<bool, string>(_onComplete, rstatus, errorStr);
+                resultstr = _errorStr;
+                PostMainThreadAction<string, string>(_onComplete, rstatus, resultstr);
             };
-
             simpleDownload(_url, _savePath, t_onDownloading, t_onComplete);
         }
 
-        void simpleDownload(string _url, string _savePath, Action<float> _onProgreeUpdate, Action<bool, string> _onComplete)
+        void simpleDownload(string _url, string _savePath, Action<long, long> _onDownloading, Action<string, string> _onComplete)
         {
             Thread thread = new Thread(new ThreadStart(() =>
             {
@@ -352,65 +481,38 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
                 {
                     if (_onComplete != null)
                     {
-                        _onComplete(true, "Already Exist!");
+                        _onComplete(_url, _savePath);
                     }
                 }
                 else
                 {
                     _savePath = _savePath + PERSIST_EXP;
-
-
+                    WebResponse response = null;
+                    FileStream writer = null;
                     try
                     {
                         writer = new FileStream(_savePath, FileMode.OpenOrCreate, FileAccess.Write);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.Log("writer = new FileStream error");
-                        if (writer != null)
+
+                        long lStartPos = writer.Length; ;//当前文件大小
+                        long currentLength = 0;
+                        long totalLength = 0;//总大小
+
+                        HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(_url);
+                        request.Method = "HEAD";
+                        response = (HttpWebResponse)request.GetResponse();
+                        //文件找不到 404 这里会空
+                        if (response == null)
                         {
-                            writer.Close();
-                            writer.Dispose();
-                        }
-                        if (_onComplete != null)
-                        {
-                            _onComplete(false, ex.Message);
-                        }
-                        return;
-                    }
-                    HttpWebRequest request;
-                    long lStartPos = writer.Length; ;//当前文件大小
-                    long currentLength = 0;
-                    long totalLength = 0;//总大小
-                    if (File.Exists(_savePath))//断点续传
-                    {
-                        try
-                        {
-                            request = (HttpWebRequest)HttpWebRequest.Create(_url);
-                            request.Method = "HEAD";
-                            response = (HttpWebResponse)request.GetResponse();
-                            //改为上面的只请求Head
-                            //response = request.GetResponse();
-                        }
-                        catch (Exception ex)
-                        {
-                            //失败,文件找不到 404 错误会在这里出现
-                            Debug.Log($"AA: response = request.GetResponse() {ex.Message}, response==null? {response == null}");
-                            //文件找不到 404 这里会空
-                            if (response == null)
+                            Debug.Log("response == null");
+                            if (writer != null)
                             {
-                                if (writer != null)
-                                {
-                                    writer.Close();
-                                    writer.Dispose();
-                                }
+                                writer.Close();
+                                writer.Dispose();
                             }
-                            if (_onComplete != null)
-                            {
-                                _onComplete(false, ex.Message);
-                            }
+                            onError(new Exception("remote file not found"));
                             return;
                         }
+
                         if (response != null)
                         {
                             long sTotal = response.ContentLength;
@@ -427,7 +529,7 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
 
                                 if (_onComplete != null)
                                 {
-                                    _onComplete(true, "Download success!");
+                                    _onComplete(_url, realPath);
                                 }
 
                                 return;
@@ -442,7 +544,7 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
                                 //起始长度比总长还长，删除重下
                                 Debug.Log("file length is illegal delete and redownload");
                                 File.Delete(_savePath);
-                                simpleDownload(_url, _savePath, _onProgreeUpdate, _onComplete);
+                                simpleDownload(_url, _savePath, _onDownloading, _onComplete);
                                 return;
                             }
                             request = getWebRequest(_url, (int)lStartPos);
@@ -451,84 +553,111 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
                             totalLength = response.ContentLength + lStartPos; //
                             currentLength = lStartPos; //
                         }
-                    }
-                    if (response == null)
-                    {
-                        Debug.Log("response = =null ");
+
+                        if (response == null)
+                        {
+                            Debug.Log("response = =null ");
+                            if (writer != null)
+                            {
+                                writer.Close();
+                                writer.Dispose();
+                            }
+                            onError(new Exception("response = =null "));
+                            return;
+                        }
+                        Stream reader = response.GetResponseStream();
+                        byte[] buff = new byte[1024];
+                        int c = 0; //实际读取的字节数
+                        while ((c = reader.Read(buff, 0, buff.Length)) > 0)
+                        {
+                            currentLength += c;
+                            writer.Write(buff, 0, c);
+                            //float curL = currentLength;
+                            //float totalL = totalLength;
+                            //float progressPercent = (float)(curL / totalL);
+                            if (_onDownloading != null)
+                            {
+                                _onDownloading(currentLength, totalLength);
+                            }
+                            writer.Flush();
+                        }
                         if (writer != null)
                         {
                             writer.Close();
                             writer.Dispose();
                         }
-                        if (_onComplete != null)
+                        //close(writer);
+                        if (currentLength == totalLength)
                         {
-                            _onComplete(false, "response ==null");
+                            string realPath = _savePath.Replace(PERSIST_EXP, "");
+                            File.Move(_savePath, realPath);
+                            if (_onComplete != null)
+                            {
+                                _onComplete(_url, realPath);
+                            }
+                            Debug.Log("下载完成!");
                         }
+
+
+                        if (reader != null)
+                        {
+                            reader.Close();
+                            reader.Dispose();
+                            response.Close();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.Log("writer = new FileStream error");
+                        if (writer != null)
+                        {
+                            writer.Close();
+                            writer.Dispose();
+                        }
+                        onError(ex);
                         return;
-                    }
-                    Stream reader = response.GetResponseStream();
-                    byte[] buff = new byte[1024];
-                    int c = 0; //实际读取的字节数
-                    while ((c = reader.Read(buff, 0, buff.Length)) > 0)
-                    {
-                        currentLength += c;
-                        writer.Write(buff, 0, c);
-                        float curL = currentLength;
-                        float totalL = totalLength;
-                        float progressPercent = (float)(curL / totalL);
-                        if (_onProgreeUpdate != null)
-                        {
-                            _onProgreeUpdate(progressPercent);
-                        }
-                        writer.Flush();
-                    }
-                    if (writer != null)
-                    {
-                        writer.Close();
-                        writer.Dispose();
-                    }
-                    //close(writer);
-                    if (currentLength == totalLength)
-                    {
-                        string realPath = _savePath.Replace(PERSIST_EXP, "");
-                        File.Move(_savePath, realPath);
-                        if (_onComplete != null)
-                        {
-                            _onComplete(true, "Download success!");
-                        }
-                        Debug.Log("下载完成!");
-                    }
-
-
-                    if (reader != null)
-                    {
-                        reader.Close();
-                        reader.Dispose();
-                        response.Close();
                     }
                 }
             }));
             thread.Start();
         }
 
-        HttpWebRequest getWebRequest(string url, int lStartPos)
+        HttpWebRequest getWebRequest(string _url, int _iStartPos)
         {
             HttpWebRequest request = null;
             try
             {
-                request = (System.Net.HttpWebRequest)HttpWebRequest.Create(url);
-                request.AddRange(lStartPos); //设置Range值
+                request = (System.Net.HttpWebRequest)HttpWebRequest.Create(_url);
+                request.AddRange(_iStartPos); //设置Range值
             }
             catch (Exception ex)
             {
                 Debug.Log("create request error: " + ex.Message);
+                onError(ex);
             }
 
             return request;
         }
 
+        static string GetFileMD5(string filepath)
+        {
+            var filestream = new FileStream(filepath, System.IO.FileMode.Open);
+            if (filestream == null)
+            {
+                string V = "";
+                return V;
+            }
+            MD5 md5 = MD5.Create();
+            var fileMD5Bytes = md5.ComputeHash(filestream);
+            filestream.Close();
+            string filemd5 = System.BitConverter.ToString(fileMD5Bytes).Replace("-", "").ToLower();
+            return filemd5;
+        }
+
         #endregion
-        //=================================================================
+        //=======================================
+        //=======================================
+        #region PostToMainThread
 
         /// <summary>
         /// 通知主线程回调
@@ -583,5 +712,7 @@ namespace Baidu.Meta.ComponentsBundleLoader.Runtime
                 if (e != null) e(t1, t2, t3, t4);
             }), new { action = action, arg1 = arg1, arg2 = arg2, arg3 = arg3, arg4 = arg4 });
         }
+        #endregion
+        //=======================================
     }
 }
